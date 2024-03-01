@@ -7,34 +7,26 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define TrieC Trie<KeyT,END,ValT,NUL>
-#define TrieT <typename KeyT, KeyT END, typename ValT, ValT NUL>
-
-/*
-Just testing a block comment
-multiple things // should work here
-
-
-*/
+#define TrieC Trie <KeyT, ValT>
+#define TrieT <typename KeyT, typename ValT>
 
 template TrieT
 TrieC::Trie ()
 {
-	key = END;
-	val = NUL;
 	next = 0;
 	match = 0;
+	isleaf = 0;
 }
 
 template TrieT
-void TrieC::insert (const KeyT* key, ValT val)
+void TrieC::insert (KeyT* key, KeyT end, ValT val)
 {
 	TrieC* tree = this;
-	ValT* last = &tree->val;
+	TrieC* last = this;
 	
-	while (*key != END)
+	while (*key != end)
 	{
-		if (tree->key == END)
+		if (tree->key == end)
 			tree->key = *key;
 		
 		while (*key != tree->key)
@@ -42,55 +34,55 @@ void TrieC::insert (const KeyT* key, ValT val)
 			if (!tree->next)
 			{
 				tree->next = (Trie*) malloc (sizeof (TrieC));
-				TrieC tmp; *tree->next = tmp;
 				tree->next->key = *key;
 			}
-			
 			tree = tree->next;
 		}
 		
-		last = &tree->val;
+		last = tree;
 		
 		if (!tree->match)
 		{
 			tree->match = (Trie*) malloc (sizeof (TrieC));
-			TrieC tmp; *tree->match = tmp;
-			tree->match->key = END;
+			tree->match->key = end;
 		}
 		tree = tree->match;
 		
 		key++;
 	}
 	
-	*last = val;
+	last->val = val;
+	last->isleaf = 1;
 }
 
 template TrieT
-ValT TrieC::find (const KeyT* key)
+int TrieC::find (KeyT* key, KeyT end, ValT* val)
 {
 	TrieC* tree = this;
+	TrieC* last = this;
 	
-	ValT ret = NUL;
-	
-	while (*key != END)
+	while (*key != end)
 	{
-		// try to match the character at this level\
-		      r        
+		// try to match the character at this level        
 		while (*key != tree->key)
 		{
 			// no more characters to test against
-			if (!tree->next) return NUL;
+			if (!tree->next)
+				return -1;
 			
 			tree = tree->next;
 		}
 		
-		ret = tree->val;
+		last = tree;
 		
 		if (tree->match) tree = tree->match;
 		key++;
 	}
 	
-	return ret;
+	if (!last->isleaf) return -1;
+	
+	*val = last->val;
+	return 0;
 }
 
 #endif
