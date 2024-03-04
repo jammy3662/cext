@@ -68,7 +68,7 @@ int TrieC::find (KeyT* key, KeyT end, ValT* val)
 		{
 			// no more characters to test against
 			if (!tree->next)
-				return -1;
+				return 0;
 			
 			tree = tree->next;
 		}
@@ -79,10 +79,10 @@ int TrieC::find (KeyT* key, KeyT end, ValT* val)
 		key++;
 	}
 	
-	if (!last->isleaf) return -1;
+	if (!last->isleaf) return 0;
 	
-	*val = last->val;
-	return 0;
+	if (val) *val = last->val;
+	return 1;
 }
 
 #endif

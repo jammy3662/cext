@@ -19,7 +19,7 @@ struct Trie
 	// groups sequential characters into a single node
 	
 	void insert (KeyT* key, KeyT stop, ValT val);
-	int find (KeyT* key, KeyT stop, ValT* val__ptr);
+	int find (KeyT* key, KeyT stop, ValT* val__ptr=0x0);
 	
 	Trie();
 };
