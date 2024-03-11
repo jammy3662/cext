@@ -23,7 +23,7 @@ void arr<T>::allocate (int n)
 	clear ();
 	count = 0;
 	available = n;
-	buf = (T*) realloc (buf, n * sizeof(T));
+	ptr = (T*) realloc (ptr, n * sizeof(T));
 }
 
 template <typename T>
@@ -35,7 +35,7 @@ int arr<T>::expand ()
 	// add 50% size of the current used elements
 	available = roundNearest ((float)available * 1.5);
 	
-	buf = (T*) realloc (buf, available * sizeof(T));
+	ptr = (T*) realloc (ptr, available * sizeof(T));
 	
 	return available - prev;
 }
@@ -48,7 +48,7 @@ int arr<T>::append (T next)
 	if (count >= available)
 		added = expand ();
 	
-	buf [count] = next;
+	ptr [count] = next;
 	
 	count++;
 	return added;
@@ -58,7 +58,7 @@ template <typename T>
 int arr<T>::shrink ()
 {
 	int unused = available - count;
-	buf = (T*) realloc (buf, count * sizeof(T));
+	ptr = (T*) realloc (ptr, count * sizeof(T));
 	available = count;
 	return unused;
 }
@@ -66,9 +66,9 @@ int arr<T>::shrink ()
 template <typename T>
 void arr<T>::clear ()
 {
-	if (!buf) return;
+	if (!ptr) return;
 	
-	free (buf);
+	free (ptr);
 	arr<T> newarr;
 	
 	*this = newarr;

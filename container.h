@@ -10,7 +10,7 @@ struct arr
 {
 	int count, available;
 	
-	T* buf;
+	T* ptr;
 	
 	int append (T next); // returns # of new elements allocated
 	void allocate (int num);
@@ -18,9 +18,9 @@ struct arr
 	int shrink (); // deallocate all unused elements (returns # unused elements)
 	void clear (); // deallocate all memory
 	
-	T& operator [] (int idx) {return buf[idx];};
-	operator T* () {return buf;}
-	arr () {count = 0; available = 0; buf = 0;};
+	T& operator [] (int idx) {return ptr[idx];};
+	operator T* () {return ptr;}
+	arr () {count = 0; available = 0; ptr = 0;};
 };
 
 #include "container.cc.h"

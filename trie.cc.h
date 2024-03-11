@@ -56,8 +56,11 @@ void TrieC::insert (KeyT* key, KeyT end, ValT val)
 }
 
 template TrieT
-int TrieC::find (KeyT* key, KeyT end, ValT* val)
+ValT TrieC::find (KeyT* key, KeyT end, int* err)
 {
+	ValT val; // careful, may return garbage data (check err)
+	if (err) *err = 0; // default to success
+	
 	TrieC* tree = this;
 	TrieC* last = this;
 	
@@ -68,8 +71,10 @@ int TrieC::find (KeyT* key, KeyT end, ValT* val)
 		{
 			// no more characters to test against
 			if (!tree->next)
-				return 0;
-			
+			{
+				if (err) *err = 2;
+				return val;
+			}			
 			tree = tree->next;
 		}
 		
@@ -79,10 +84,29 @@ int TrieC::find (KeyT* key, KeyT end, ValT* val)
 		key++;
 	}
 	
-	if (!last->isleaf) return 0;
+	if (!last->isleaf)
+	{
+		if (err) *err = 1;
+	}
+	else  val = last->val;
 	
-	if (val) *val = last->val;
-	return 1;
+	return val;
+}
+
+template TrieT
+inline
+void TrieC::insert (KeyT* key, ValT val)
+{
+	KeyT zero = {0};
+	insert (key, zero, val);
+}
+
+template TrieT
+inline
+ValT TrieC::find (KeyT* key, int* err)
+{
+	KeyT zero = {0};
+	return find (key, zero, err);
 }
 
 #endif
