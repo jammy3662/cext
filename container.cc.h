@@ -24,18 +24,23 @@ void arr<T>::allocate (int n)
 	count = 0;
 	available = n;
 	ptr = (T*) realloc (ptr, n * sizeof(T));
+	memset (ptr, 0, n *	sizeof (T));
 }
 
 template <typename T>
 int arr<T>::expand ()
 {
-	if (!available) allocate (1);
+	if (not available) allocate (1);
 	
 	int prev = available;
 	// add 50% size of the current used elements
 	available = roundNearest ((float)available * 1.5);
 	
+	if (no ptr) allocate (1);
+	
+	T* oldptr = ptr;
 	ptr = (T*) realloc (ptr, available * sizeof(T));
+	memset (oldptr, 0, (oldptr - ptr) * sizeof(T));
 	
 	return available - prev;
 }
@@ -66,7 +71,7 @@ int arr<T>::shrink ()
 template <typename T>
 void arr<T>::clear ()
 {
-	if (!ptr) return;
+	if (no ptr) return;
 	
 	free (ptr);
 	arr<T> newarr;

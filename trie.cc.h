@@ -2,21 +2,13 @@
 #ifndef TRIE_DOT_H_IMPL
 #define TRIE_DOT_H_IMPL
 
-#include "trie.h"
-
 #include <stdlib.h>
 #include <string.h>
 
-#define TrieC Trie <KeyT, ValT>
-#define TrieT <typename KeyT, typename ValT>
+#include "trie.h"
 
-template TrieT
-TrieC::Trie ()
-{
-	next = 0;
-	match = 0;
-	isleaf = 0;
-}
+#define TrieC TrieN <KeyT, ValT>
+#define TrieT <typename KeyT, typename ValT>
 
 template TrieT
 void TrieC::insert (KeyT* key, KeyT end, ValT val)
@@ -31,9 +23,9 @@ void TrieC::insert (KeyT* key, KeyT end, ValT val)
 		
 		while (*key != tree->key)
 		{
-			if (!tree->next)
+			if (no tree->next)
 			{
-				tree->next = (Trie*) malloc (sizeof (TrieC));
+				tree->next = (TrieN*) malloc (sizeof (TrieC));
 				tree->next->key = *key;
 			}
 			tree = tree->next;
@@ -41,9 +33,9 @@ void TrieC::insert (KeyT* key, KeyT end, ValT val)
 		
 		last = tree;
 		
-		if (!tree->match)
+		if (no tree->match)
 		{
-			tree->match = (Trie*) malloc (sizeof (TrieC));
+			tree->match = (TrieN*) malloc (sizeof (TrieC));
 			tree->match->key = end;
 		}
 		tree = tree->match;
@@ -56,9 +48,8 @@ void TrieC::insert (KeyT* key, KeyT end, ValT val)
 }
 
 template TrieT
-ValT TrieC::find (KeyT* key, KeyT end, int* err)
+ValT& TrieC::find (KeyT* key, KeyT end, int* err)
 {
-	ValT val; // careful, may return garbage data (check err)
 	if (err) *err = 0; // default to success
 	
 	TrieC* tree = this;
@@ -70,10 +61,10 @@ ValT TrieC::find (KeyT* key, KeyT end, int* err)
 		while (*key != tree->key)
 		{
 			// no more characters to test against
-			if (!tree->next)
+			if (no tree->next)
 			{
 				if (err) *err = 2;
-				return val;
+				return last->val;
 			}			
 			tree = tree->next;
 		}
@@ -84,29 +75,34 @@ ValT TrieC::find (KeyT* key, KeyT end, int* err)
 		key++;
 	}
 	
-	if (!last->isleaf)
+	if (not last->isleaf)
 	{
 		if (err) *err = 1;
 	}
-	else  val = last->val;
 	
-	return val;
+	return last->val;
 }
 
 template TrieT
-inline
-void TrieC::insert (KeyT* key, ValT val)
+void Trie<KeyT,ValT>::insert (KeyT* key, KeyT stop, ValT val)
 {
 	KeyT zero = {0};
-	insert (key, zero, val);
+	root.insert (key, zero, val);
 }
 
 template TrieT
-inline
-ValT TrieC::find (KeyT* key, int* err)
+ValT& Trie<KeyT,ValT>::find (KeyT* key, KeyT stop, int* err)
 {
 	KeyT zero = {0};
-	return find (key, zero, err);
+	ValT& res = root.find (key, zero, err);
+	return res;
+}
+
+template TrieT
+Trie<KeyT,ValT>::Trie()
+{
+	TrieC empty = {0};
+	root = empty;
 }
 
 #endif

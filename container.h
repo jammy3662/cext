@@ -1,9 +1,9 @@
 #ifndef CONTAINER_DOT_H
 #define CONTAINER_DOT_H
 
-#pragma pack (push, 1)
+#define no !
 
-#include <stdint.h>
+#pragma pack (push, 1)
 
 template <typename T>
 struct arr
@@ -20,7 +20,6 @@ struct arr
 	
 	T& operator [] (int idx) {return ptr[idx];};
 	operator T* () {return ptr;}
-	arr () {count = 0; available = 0; ptr = 0;};
 };
 
 #include "container.cc.h"
