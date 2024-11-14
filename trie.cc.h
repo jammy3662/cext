@@ -86,12 +86,25 @@ ValT& TrieC::find (KeyT* key, KeyT end, int* err)
 template TrieT
 void Trie<KeyT,ValT>::insert (KeyT* key, KeyT stop, ValT val)
 {
+	root.insert (key, stop, val);
+}
+
+template TrieT
+ValT& Trie<KeyT,ValT>::find (KeyT* key, KeyT stop, int* err)
+{
+	ValT& res = root.find (key, stop, err);
+	return res;
+}
+
+template TrieT
+void Trie<KeyT,ValT>::insert (KeyT* key, ValT val)
+{
 	KeyT zero = {0};
 	root.insert (key, zero, val);
 }
 
 template TrieT
-ValT& Trie<KeyT,ValT>::find (KeyT* key, KeyT stop, int* err)
+ValT& Trie<KeyT,ValT>::find (KeyT* key, int* err)
 {
 	KeyT zero = {0};
 	ValT& res = root.find (key, zero, err);

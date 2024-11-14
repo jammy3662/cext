@@ -12,13 +12,13 @@
 heres a block comment with many lines
 */
 
-static int roundNearest (float f)
+static fast roundNearest (float f)
 {
-	return (int) (f + 0.5);
+	return (fast) (f + 0.5);
 }
 
 template <typename T>
-void arr<T>::allocate (int n)
+void array<T>::allocate (fast n)
 {
 	clear ();
 	count = 0;
@@ -28,11 +28,11 @@ void arr<T>::allocate (int n)
 }
 
 template <typename T>
-int arr<T>::expand ()
+fast array<T>::expand ()
 {
 	if (not available) allocate (1);
 	
-	int prev = available;
+	fast prev = available;
 	// add 50% size of the current used elements
 	available = roundNearest ((float)available * 1.5);
 	
@@ -40,18 +40,25 @@ int arr<T>::expand ()
 	
 	T* oldptr = ptr;
 	ptr = (T*) realloc (ptr, available * sizeof(T));
+	if (ptr == 0)
+	{
+		fprintf (stderr, "Out of memory\n");
+		return 0;
+	}
 	memset (oldptr, 0, (oldptr - ptr) * sizeof(T));
 	
 	return available - prev;
 }
 
 template <typename T>
-int arr<T>::append (T next)
+fast array<T>::append (T next)
 {
-	int added;
+	fast added;
 	
 	if (count >= available)
 		added = expand ();
+	else if (available - count > (available/3))
+		shrink ();
 	
 	ptr [count] = next;
 	
@@ -60,21 +67,21 @@ int arr<T>::append (T next)
 }
 
 template <typename T>
-int arr<T>::shrink ()
+fast array<T>::shrink ()
 {
-	int unused = available - count;
+	fast unused = available - count;
 	ptr = (T*) realloc (ptr, count * sizeof(T));
 	available = count;
 	return unused;
 }
 
 template <typename T>
-void arr<T>::clear ()
+void array<T>::clear ()
 {
 	if (no ptr) return;
 	
 	free (ptr);
-	arr<T> newarr;
+	array<T> newarr;
 	
 	*this = newarr;
 }
