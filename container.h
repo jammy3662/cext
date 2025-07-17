@@ -5,8 +5,6 @@
 
 #define no !
 
-#pragma pack (push, 1)
-
 template <typename T>
 struct array
 {

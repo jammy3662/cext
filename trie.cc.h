@@ -48,7 +48,7 @@ void TrieC::insert (KeyT* key, KeyT end, ValT val)
 }
 
 template TrieT
-ValT& TrieC::find (KeyT* key, KeyT end, int* err)
+ValT TrieC::find (KeyT* key, KeyT end, int* err)
 {
 	if (err) *err = 0; // default to success
 	
