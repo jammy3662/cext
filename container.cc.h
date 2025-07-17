@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define no !
+
 /*
 
 heres a block comment with many lines

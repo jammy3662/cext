@@ -3,10 +3,13 @@
 
 #include "ints.h"
 
+<<<<<<< HEAD
 #define no !
 
 #pragma pack (push, 1)
 
+=======
+>>>>>>> 3d06389 (new containers added; various bugs addressed)
 template <typename T>
 struct array
 {
@@ -25,7 +28,5 @@ struct array
 };
 
 #include "container.cc.h"
-
-#pragma pack (pop)
 
 #endif

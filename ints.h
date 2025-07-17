@@ -22,6 +22,46 @@ leastN_t(8) leastN_t(16) leastN_t(32) leastN_t(64)
 fast_t()
 least_t()
 
+<<<<<<< HEAD
 #define until(...) while( ! (__VA_ARGS__) )
 
+=======
+#undef fastN
+#undef leastN
+#undef fastN_t
+#undef leastN_t
+#undef fast_t
+#undef least_t
+
+#define until(...) while( ! (__VA_ARGS__) )
+
+#ifdef INTS_CLASSIC
+typedef int8_t int8;
+typedef int16_t int16;
+typedef int32_t int32;
+typedef int64_t int64;
+typedef uint8_t uint8;
+typedef uint16_t uint16;
+typedef uint32_t uint32;
+typedef uint64_t uint64;
+#else
+#define int1 int8_t 
+#define int2 int16_t
+#define int4 int32_t
+#define int8 int64_t
+#define uint1 uint8_t 
+#define uint2 uint16_t
+#define uint4 uint32_t
+#define uint8 uint64_t
+#endif
+
+#define byte char
+
+#ifdef LONG_LONG_MAX
+	#define most long long
+#else
+	#define most long
+#endif
+
+>>>>>>> 3d06389 (new containers added; various bugs addressed)
 #endif
