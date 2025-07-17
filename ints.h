@@ -22,10 +22,6 @@ leastN_t(8) leastN_t(16) leastN_t(32) leastN_t(64)
 fast_t()
 least_t()
 
-<<<<<<< HEAD
-#define until(...) while( ! (__VA_ARGS__) )
-
-=======
 #undef fastN
 #undef leastN
 #undef fastN_t
@@ -63,5 +59,4 @@ typedef uint64_t uint64;
 	#define most long
 #endif
 
->>>>>>> 3d06389 (new containers added; various bugs addressed)
 #endif

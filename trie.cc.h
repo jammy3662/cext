@@ -64,11 +64,7 @@ ValT& TrieC::find (KeyT* key, KeyT end, int* err)
 			if (no tree->next)
 			{
 				if (err) *err = 2;
-<<<<<<< HEAD
-				return last->val;
-=======
 				return (ValT) {0};
->>>>>>> 3d06389 (new containers added; various bugs addressed)
 			}			
 			tree = tree->next;
 		}
@@ -95,15 +91,9 @@ void Trie<KeyT,ValT>::insert (KeyT* key, KeyT stop, ValT val)
 }
 
 template TrieT
-<<<<<<< HEAD
-ValT& Trie<KeyT,ValT>::find (KeyT* key, KeyT stop, int* err)
-{
-	ValT& res = root.find (key, stop, err);
-=======
 ValT Trie<KeyT,ValT>::find (KeyT* key, KeyT stop, int* err)
 {
 	ValT res = root.find (key, stop, err);
->>>>>>> 3d06389 (new containers added; various bugs addressed)
 	return res;
 }
 
@@ -115,17 +105,10 @@ void Trie<KeyT,ValT>::insert (KeyT* key, ValT val)
 }
 
 template TrieT
-<<<<<<< HEAD
-ValT& Trie<KeyT,ValT>::find (KeyT* key, int* err)
-{
-	KeyT zero = {0};
-	ValT& res = root.find (key, zero, err);
-=======
 ValT Trie<KeyT,ValT>::find (KeyT* key, int* err)
 {
 	KeyT zero = {0};
 	ValT res = root.find (key, zero, err);
->>>>>>> 3d06389 (new containers added; various bugs addressed)
 	return res;
 }
 
